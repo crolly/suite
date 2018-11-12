@@ -8,6 +8,7 @@ import (
 	"github.com/gobuffalo/packd"
 	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/suite/fix"
+	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 )
@@ -16,6 +17,7 @@ type Model struct {
 	suite.Suite
 	*require.Assertions
 	DB       *pop.Connection
+	GormDB   *gorm.DB
 	Fixtures packd.Finder
 }
 
@@ -65,6 +67,12 @@ func NewModel() *Model {
 	c, err := pop.Connect(envy.Get("GO_ENV", "test"))
 	if err == nil {
 		m.DB = c
+	}
+
+	g, err := gorm.Open(c.Dialect.Details().Dialect, c.URL())
+	if err == nil {
+		g = g.LogMode(true)
+		m.GormDB = g
 	}
 	return m
 }
