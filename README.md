@@ -2,6 +2,8 @@
 
 Suite is a package meant to make testing [gobuffalo.io](http://gobuffalo.io) applications easier.
 
+This is a fork of gobuffalo/suite addind GormDB to the model in order to use the suite in combination with buffalo-gorm.
+
 ## Setup
 
 This is the entry point into your unit testing suite. The `Test_ActionSuite(t *testing.T)` function is
