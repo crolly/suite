@@ -7,7 +7,7 @@ import (
 	"github.com/gobuffalo/envy"
 	"github.com/gobuffalo/packd"
 	"github.com/gobuffalo/pop"
-	"github.com/gobuffalo/suite/fix"
+	"github.com/crolly/suite/fix"
 	"github.com/jinzhu/gorm"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
@@ -82,8 +82,13 @@ type Box interface {
 	packd.Walkable
 }
 
+func NewModelWithFixturesAndConfig(box packd.Box, config fix.PlushConfig) (*Model, error) {
+	m := NewModel()
+	m.Fixtures = box
+	return m, fix.Init(box, config)
+}
 func NewModelWithFixtures(box packd.Box) (*Model, error) {
 	m := NewModel()
 	m.Fixtures = box
-	return m, fix.Init(box)
+	return m, fix.Init(box, fix.PlushConfig{})
 }
